@@ -31,6 +31,4 @@ public class CategoryResource {
 		CategoryDTO dto = service.findById(idCategory);
 		return ResponseEntity.ok().body(dto);
 	}
-
-
 }

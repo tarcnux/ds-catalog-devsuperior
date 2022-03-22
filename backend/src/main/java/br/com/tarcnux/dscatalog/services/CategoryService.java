@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.tarcnux.dscatalog.dto.CategoryDTO;
 import br.com.tarcnux.dscatalog.entities.Category;
 import br.com.tarcnux.dscatalog.repositories.CategoryRepository;
+import br.com.tarcnux.dscatalog.services.exceptions.EntityNotFountException;
 
 @Service
 public class CategoryService {
@@ -29,7 +30,7 @@ public class CategoryService {
 	@Transactional
 	public CategoryDTO findById(Long idCategory) {
 		Optional<Category> obj = repository.findById(idCategory);
-		Category entity = obj.get();
+		Category entity = obj.orElseThrow(() -> new EntityNotFountException("Categoria não encontrada"));
 		return new CategoryDTO(entity);
 	}
 
