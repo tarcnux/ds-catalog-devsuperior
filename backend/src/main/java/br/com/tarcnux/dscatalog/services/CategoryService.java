@@ -1,6 +1,7 @@
 package br.com.tarcnux.dscatalog.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,13 @@ public class CategoryService {
 		return 	listCategories
 				.stream().map(x -> new CategoryDTO(x))
 				.collect(Collectors.toList());
+	}
+
+	@Transactional
+	public CategoryDTO findById(Long idCategory) {
+		Optional<Category> obj = repository.findById(idCategory);
+		Category entity = obj.get();
+		return new CategoryDTO(entity);
 	}
 
 }
