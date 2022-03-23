@@ -7,12 +7,15 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.tarcnux.dscatalog.dto.CategoryDTO;
 import br.com.tarcnux.dscatalog.entities.Category;
 import br.com.tarcnux.dscatalog.repositories.CategoryRepository;
+import br.com.tarcnux.dscatalog.services.exceptions.DatabaseException;
 import br.com.tarcnux.dscatalog.services.exceptions.ResourceNotFountException;
 
 @Service
@@ -57,6 +60,17 @@ public class CategoryService {
 		} catch(EntityNotFoundException e) {
 			throw new ResourceNotFountException("Identificador não encontrado: " + idCategory);
 		}		
+	}
+
+	public void delete(Long idCategory) {
+		try {
+			repository.deleteById(idCategory);
+		} catch(EmptyResultDataAccessException e) {
+			throw new ResourceNotFountException("Identificador não encontrado: " + idCategory);
+		} catch(DataIntegrityViolationException e) {
+			throw new DatabaseException("Violação de Integridade - Categoria não foi apagada.");
+		}
+		
 	}
 
 }
