@@ -1,9 +1,9 @@
 package br.com.tarcnux.dscatalog.services.exceptions;
 
-public class EntityNotFountException extends RuntimeException{
+public class ResourceNotFountException extends RuntimeException{
 	private static final long serialVersionUID = 1L;
 
-	public EntityNotFountException(String message) {
+	public ResourceNotFountException(String message) {
 		super(message);
 	}
 }
