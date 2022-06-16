@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.EmptyResultDataAccessException;
 
 import br.com.tarcnux.dscatalog.entities.Product;
+import br.com.tarcnux.dscatalog.tests.Factory;
 
 /**
  * Carrega somente os componentes relacionados ao Spring Data JPA. 
@@ -25,12 +26,25 @@ class ProductRepositoryTests {
 	
 	private Long existingId;
 	private Long nonExistingId;
+	private Long countTotalProducts;
 	
 	//Fixture
 	@BeforeEach
 	void setUp() throws Exception {
 		existingId = 1L;
 		nonExistingId = 1000L;
+		countTotalProducts = 25L; //There is 25 Total Products inserted on Data Base
+	}
+	
+	@Test
+	public void saveShouldPersistWithAutoincrementWhenIdIsNull() {
+		Product product = Factory.createProduct();
+		product.setId(null);
+		
+		product = repository.save(product);
+		
+		Assertions.assertNotNull(product.getId());
+		Assertions.assertEquals(countTotalProducts + 1, product.getId());
 	}
 	
 	@Test
