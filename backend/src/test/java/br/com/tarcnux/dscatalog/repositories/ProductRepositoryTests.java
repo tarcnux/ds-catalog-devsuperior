@@ -3,6 +3,7 @@ package br.com.tarcnux.dscatalog.repositories;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -20,13 +21,23 @@ import br.com.tarcnux.dscatalog.entities.Product;
 class ProductRepositoryTests {
 
 	@Autowired
-	private ProductRepository repository;
+	private ProductRepository repository;	
+	
+	private Long existingId;
+	private Long nonExistingId;
+	
+	//Fixture
+	@BeforeEach
+	void setUp() throws Exception {
+		existingId = 1L;
+		nonExistingId = 1000L;
+	}
 	
 	@Test
 	void deleteShouldDeleteObjectWhenIdExists() {
 		
 		//Arrange
-		Long existingId = 1L;
+		//Inside of BeforeEach
 		
 		//Act
 		repository.deleteById(existingId);
@@ -40,7 +51,7 @@ class ProductRepositoryTests {
 	void deleteShouldThrowsEmptyResultDataAccessExceptionWhenIdDoesNotExist() {
 		Assertions.assertThrows(EmptyResultDataAccessException.class, () -> {
 			//Arrange
-			Long nonExistingId = 1000L;
+			//Inside of BeforeEach
 			
 			//Act
 			repository.deleteById(nonExistingId);
